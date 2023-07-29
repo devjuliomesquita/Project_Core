@@ -8,5 +8,5 @@ import java.util.Optional;
 import java.util.UUID;
 @Repository
 public interface ISpringApplicationUserRepository extends JpaRepository<ApplicationUserEntity, UUID> {
-    Optional<ApplicationUserEntity> findbyName(String name);
+    Optional<ApplicationUserEntity> findByName(String name);
 }

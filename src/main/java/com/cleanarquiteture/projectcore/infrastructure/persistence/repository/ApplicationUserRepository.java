@@ -24,7 +24,7 @@ public class ApplicationUserRepository implements IApplicationUserRepository {
 
     @Override
     public ApplicationUser findByName(String name) {
-        Optional<ApplicationUserEntity> userEntity = this.repository.findbyName(name);
+        Optional<ApplicationUserEntity> userEntity = this.repository.findByName(name);
         if(userEntity.isPresent()){
             return userEntity.get().toApplicationUser();
         }
