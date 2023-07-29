@@ -10,5 +10,6 @@ public interface IApplicationUserService {
     ApplicationUserDTO findByName(String name);
     ApplicationUserDTO findById(UUID id);
     void create(ApplicationUserDTO applicationUserDTO);
+    void update(ApplicationUserDTO applicationUserDTO);
     void delete(UUID id);
 }

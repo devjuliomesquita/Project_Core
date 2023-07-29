@@ -14,9 +14,10 @@ import java.util.stream.Collectors;
 @Component
 public class ApplicationUserRepository implements IApplicationUserRepository {
     private final ISpringApplicationUserRepository repository;
-    public ApplicationUserRepository(ISpringApplicationUserRepository repository){
+    public ApplicationUserRepository(ISpringApplicationUserRepository repository) {
         this.repository = repository;
     }
+
     @Override
     public List<ApplicationUser> findAll() {
         List<ApplicationUserEntity> userEntities = repository.findAll();
@@ -43,22 +44,34 @@ public class ApplicationUserRepository implements IApplicationUserRepository {
 
     @Override
     public void create(ApplicationUser applicationUser) {
-        ApplicationUserEntity userEntity;
-        if (Objects.isNull(applicationUser.getId())) {
-            userEntity = new ApplicationUserEntity(applicationUser);
-        } else {
-            userEntity = repository.findById(applicationUser.getId()).get();
-            userEntity.update(applicationUser);
+        try {
+            if (Objects.isNull(applicationUser.getId())) {
+                ApplicationUserEntity userEntity = new ApplicationUserEntity(applicationUser);
+                repository.save(userEntity);
+            }
+        } catch (Exception e){
+            new RuntimeException("User not create." + e);
         }
-        repository.save(userEntity);
+    }
+    @Override
+    public void update(ApplicationUser applicationUser) {
+        try {
+            ApplicationUserEntity userEntity = repository.findById(applicationUser.getId()).get();
+            userEntity.update(applicationUser);
+            repository.save(userEntity);
+        } catch (Exception e) {
+            new RuntimeException("User not found." + e);
+        }
     }
 
     @Override
     public void delete(UUID id) {
-        Optional<ApplicationUserEntity> userEntity = repository.findById(id);
-        if (userEntity.isPresent()) {
-            repository.delete(userEntity.get());
+        try{
+            ApplicationUserEntity userEntity = repository.findById(id).get();
+            repository.delete(userEntity);
+        } catch (Exception e){
+            new RuntimeException("User not found." + e);
         }
-        throw new RuntimeException("User not found.");
+
     }
 }

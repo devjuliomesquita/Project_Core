@@ -21,11 +21,11 @@ public class ApplicationUserController {
         return new ResponseEntity<>(service.findAll(), HttpStatus.OK);
     }
     @GetMapping("/findByName/{name}")
-    public ResponseEntity<ApplicationUserDTO> getByName(@RequestParam String name){
+    public ResponseEntity<ApplicationUserDTO> getByName(@PathVariable("name") String name){
         return new ResponseEntity<>(service.findByName(name), HttpStatus.OK);
     }
     @GetMapping("/findById/{id}")
-    public ResponseEntity<ApplicationUserDTO> getById(@PathVariable UUID id){
+    public ResponseEntity<ApplicationUserDTO> getById(@PathVariable("id") UUID id){
         return new ResponseEntity<>(service.findById(id), HttpStatus.OK);
     }
     @PostMapping
@@ -34,10 +34,10 @@ public class ApplicationUserController {
     }
     @PutMapping
     public void update(@RequestBody ApplicationUserDTO applicationUserDTO){
-        service.create(applicationUserDTO);
+        service.update(applicationUserDTO);
     }
     @DeleteMapping("/delete/{id}")
-    public void delete (@RequestParam UUID id){
+    public void delete (@PathVariable("id") UUID id){
         service.delete(id);
     }
 }

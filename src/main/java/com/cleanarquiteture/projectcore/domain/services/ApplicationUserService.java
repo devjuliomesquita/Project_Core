@@ -42,6 +42,12 @@ public class ApplicationUserService implements IApplicationUserService {
     }
 
     @Override
+    public void update(ApplicationUserDTO applicationUserDTO) {
+        ApplicationUser applicationUser = new ApplicationUser(applicationUserDTO);
+        repository.update(applicationUser);
+    }
+
+    @Override
     public void delete(UUID id) {
         repository.delete(id);
     }

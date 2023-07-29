@@ -10,5 +10,6 @@ public interface IApplicationUserRepository {
     ApplicationUser findByName(String name);
     ApplicationUser findById(UUID id);
     void create(ApplicationUser applicationUser);
+    void update(ApplicationUser applicationUser);
     void delete(UUID id);
 }
