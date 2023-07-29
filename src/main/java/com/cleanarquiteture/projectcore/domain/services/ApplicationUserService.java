@@ -6,6 +6,7 @@ import com.cleanarquiteture.projectcore.domain.interfaces.services.IApplicationU
 import com.cleanarquiteture.projectcore.domain.model.ApplicationUser;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class ApplicationUserService implements IApplicationUserService {
@@ -23,8 +24,25 @@ public class ApplicationUserService implements IApplicationUserService {
     }
 
     @Override
+    public ApplicationUserDTO findByName(String name) {
+        ApplicationUser user = repository.findByName(name);
+        return user.applicationUserDTO();
+    }
+
+    @Override
+    public ApplicationUserDTO findById(UUID id) {
+        ApplicationUser user = repository.findById(id);
+        return user.applicationUserDTO();
+    }
+
+    @Override
     public void create(ApplicationUserDTO applicationUserDTO) {
         ApplicationUser applicationUser = new ApplicationUser(applicationUserDTO);
         repository.create(applicationUser);
+    }
+
+    @Override
+    public void delete(UUID id) {
+        repository.delete(id);
     }
 }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Component
@@ -25,7 +26,16 @@ public class ApplicationUserRepository implements IApplicationUserRepository {
     @Override
     public ApplicationUser findByName(String name) {
         Optional<ApplicationUserEntity> userEntity = this.repository.findByName(name);
-        if(userEntity.isPresent()){
+        if (userEntity.isPresent()) {
+            return userEntity.get().toApplicationUser();
+        }
+        throw new RuntimeException("User not found.");
+    }
+
+    @Override
+    public ApplicationUser findById(UUID id) {
+        Optional<ApplicationUserEntity> userEntity = repository.findById(id);
+        if (userEntity.isPresent()) {
             return userEntity.get().toApplicationUser();
         }
         throw new RuntimeException("User not found.");
@@ -34,12 +44,21 @@ public class ApplicationUserRepository implements IApplicationUserRepository {
     @Override
     public void create(ApplicationUser applicationUser) {
         ApplicationUserEntity userEntity;
-        if (Objects.isNull(applicationUser.getId())){
+        if (Objects.isNull(applicationUser.getId())) {
             userEntity = new ApplicationUserEntity(applicationUser);
-        }else {
+        } else {
             userEntity = repository.findById(applicationUser.getId()).get();
             userEntity.update(applicationUser);
         }
         repository.save(userEntity);
+    }
+
+    @Override
+    public void delete(UUID id) {
+        Optional<ApplicationUserEntity> userEntity = repository.findById(id);
+        if (userEntity.isPresent()) {
+            repository.delete(userEntity.get());
+        }
+        throw new RuntimeException("User not found.");
     }
 }
