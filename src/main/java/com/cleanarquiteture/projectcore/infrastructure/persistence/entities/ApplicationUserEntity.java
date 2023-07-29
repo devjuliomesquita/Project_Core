@@ -14,7 +14,9 @@ public class ApplicationUserEntity {
     private String name;
     public ApplicationUserEntity(){}
     public ApplicationUserEntity(ApplicationUser applicationUser){
+        this.id = applicationUser.getId();
         this.name = applicationUser.getName();
+
     }
     public void update(ApplicationUser applicationUser){
         this.id = applicationUser.getId();

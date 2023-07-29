@@ -18,9 +18,8 @@ public class ApplicationUserRepository implements IApplicationUserRepository {
     }
     @Override
     public List<ApplicationUser> findAll() {
-        List<ApplicationUser> userList = this.repository.findAll();
-        //List<ApplicationUser> colec = userList.stream().map(ApplicationUserEntity::toApplicationUser).collect(Collectors.toList());
-        return userList;
+        List<ApplicationUserEntity> userEntities = repository.findAll();
+        return userEntities.stream().map(ApplicationUserEntity::toApplicationUser).collect(Collectors.toList());
     }
 
     @Override
@@ -37,12 +36,10 @@ public class ApplicationUserRepository implements IApplicationUserRepository {
         ApplicationUserEntity userEntity;
         if (Objects.isNull(applicationUser.getId())){
             userEntity = new ApplicationUserEntity(applicationUser);
-
-
-        }else{
-            //Optional<ApplicationUser> userEntity = repository.findById(applicationUser.getId());
-
+        }else {
+            userEntity = repository.findById(applicationUser.getId()).get();
+            userEntity.update(applicationUser);
         }
-        //repository.save(userEntity);
+        repository.save(userEntity);
     }
 }
