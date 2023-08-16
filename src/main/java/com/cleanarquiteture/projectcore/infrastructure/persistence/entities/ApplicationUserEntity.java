@@ -12,6 +12,12 @@ public class ApplicationUserEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
     private String name;
+    public UUID getId(){
+        return this.id;
+    }
+    public String getName(){
+        return this.name;
+    }
     public ApplicationUserEntity(){}
     public ApplicationUserEntity(ApplicationUser applicationUser){
         this.name = applicationUser.getName();
